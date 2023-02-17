@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 
@@ -48,7 +47,7 @@ public class TurnToAngleCommand extends CommandBase {
         double speed = MathUtil.clamp(err * kP, -Constants.Swerve.maxAngularVelocity*0.5, Constants.Swerve.maxAngularVelocity*0.5);
     
         if (Math.abs(err) > 2 && timer.get() < timeout) {
-            m_robotDrive.drive(new Translation2d(0,0), speed, false, true);
+            m_robotDrive.drive(new Translation2d(0,0), speed, true, true);
         } else {
             complete = true;
         }
@@ -56,7 +55,7 @@ public class TurnToAngleCommand extends CommandBase {
 
     @Override
     public void end(boolean inturrupted){
-        m_robotDrive.drive(new Translation2d(0,0), 0, false, true);
+        m_robotDrive.drive(new Translation2d(0,0), 0, true, true);
         timer.stop();
     }
 
