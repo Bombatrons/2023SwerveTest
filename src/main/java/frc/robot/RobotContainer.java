@@ -22,9 +22,12 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
   /* Controllers */
-  private final Joystick driver = new Joystick(0);
+  private Joystick driver = new Joystick(0);
+  private XboxController secondary = new XboxController(1);
 
-  /* Drive Controls */
+  //subsystems
+public Intake intake = new Intake();
+
   private final int translationAxis = XboxController.Axis.kLeftY.value;
   private final int strafeAxis = XboxController.Axis.kLeftX.value;
   private final int rotationAxis = XboxController.Axis.kRightX.value;
@@ -37,7 +40,7 @@ public class RobotContainer {
 
   private final JoystickButton slowSpeed =
       new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-
+      
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
 
