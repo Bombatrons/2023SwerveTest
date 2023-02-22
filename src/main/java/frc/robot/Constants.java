@@ -74,7 +74,7 @@ public final class Constants {
 
     /* Motor Inverts */
     public static final boolean driveInvert = true;
-    public static final boolean angleInvert = true;
+    public static final boolean angleInvert = false;
 
     /* Angle Encoder Invert */
     public static final boolean canCoderInvert = false;
@@ -136,4 +136,15 @@ public final class Constants {
         new TrapezoidProfile.Constraints(
             kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
   }
+
+public static final int kIntakeSolenoidForwardId = 0;
+public static final String kElevatorExtensionMotorId = null;
+public static final double kPivotGroundCount = 0;
+public static final double kPivotScoreCount = 0;
+public static final double kPivotPreScoreCount = 0;
+public static final double kPivotStowCount = 0;
+public static final double kExtensionStowCount = 0;
+public static final double kExtensionMidGoalCount = 0;
+public static final double kExtensionHighGoalCount = 0;
+public static int kElevatorPivotMotorId;
 }
