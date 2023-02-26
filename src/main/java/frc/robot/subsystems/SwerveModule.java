@@ -73,8 +73,13 @@ public class SwerveModule {
   }
 
   private void resetToAbsolute() {
-    double absolutePosition = getCanCoder().getDegrees() - angleOffset.getDegrees();
-    integratedAngleEncoder.setPosition(absolutePosition);
+    /**
+     * Sets motor encoder to position on CANCoder
+     */
+    // double absolutePosition = 
+    //   getCanCoder().getDegrees() / Constants.Swerve.angleGearRatio;
+    // //- angleOffset.getDegrees();
+    integratedAngleEncoder.setPosition(0);
   }
 
   private void configAngleEncoder() {

@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -14,33 +10,28 @@ import frc.robot.autos.exampleAuto;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
 public class RobotContainer {
   /* Controllers */
-  private Joystick driver = new Joystick(0);
-  private XboxController secondary = new XboxController(1);
+private Joystick driver = new Joystick(0);
+private XboxController secondary = new XboxController(1);
 
   //subsystems
 public Intake intake = new Intake();
+public Elevator elevator = new Elevator();
 
-  private final int translationAxis = XboxController.Axis.kLeftY.value;
-  private final int strafeAxis = XboxController.Axis.kLeftX.value;
-  private final int rotationAxis = XboxController.Axis.kRightX.value;
+private final int translationAxis = XboxController.Axis.kLeftY.value;
+private final int strafeAxis = XboxController.Axis.kLeftX.value;
+private final int rotationAxis = XboxController.Axis.kRightX.value;
 
   /* Driver Buttons */
-  private final JoystickButton zeroGyro =
-      new JoystickButton(driver, XboxController.Button.kY.value);
-  private final JoystickButton robotCentric =
-      new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
+private final JoystickButton zeroGyro =
+  new JoystickButton(driver, XboxController.Button.kY.value);
+private final JoystickButton robotCentric =
+  new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
 
   private final JoystickButton slowSpeed =
-      new JoystickButton(driver, XboxController.Button.kRightBumper.value);
-      
+    new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+ 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
 
@@ -49,14 +40,14 @@ public Intake intake = new Intake();
     s_Swerve.setDefaultCommand(
         new TeleopSwerve(
             s_Swerve,
-            () -> -driver.getRawAxis(translationAxis),
+            () -> driver.getRawAxis(translationAxis),
             () -> -driver.getRawAxis(strafeAxis),
-            () -> -driver.getRawAxis(rotationAxis),
+            () -> driver.getRawAxis(rotationAxis),
             () -> robotCentric.getAsBoolean(),
             () -> slowSpeed.getAsBoolean()));
 
     // Configure the button bindings
-    configureButtonBindings();
+  configureButtonBindings();
   }
 
   /**
@@ -66,8 +57,8 @@ public Intake intake = new Intake();
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    /* Driver Buttons */
-    zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
+  /* Driver Buttons */
+  zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
   }
 
   /**
@@ -77,6 +68,6 @@ public Intake intake = new Intake();
    */
   public Command getAutonomousCommand() {
   // An ExampleCommand will run in autonomous
-    return new exampleAuto(s_Swerve);
+  return new exampleAuto(s_Swerve);
  }
 }
