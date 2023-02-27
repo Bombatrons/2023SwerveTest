@@ -7,6 +7,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator{
+    private static Elevator mInstance;
+
+    public static Elevator getInstance() {
+        if (mInstance == null) {
+          mInstance = new Elevator();
+        }
+        return mInstance;
+      }
 
 private static final int DeviceID13 = 13;
 private static final int DeviceID14 = 14;

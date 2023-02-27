@@ -4,15 +4,10 @@
 
 package frc.robot;
 
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.config.CTREConfigs;
@@ -28,25 +23,13 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private final XboxController secondary = new XboxController(1);
+  private final Joystick secondary = new Joystick(1);
 
   @Override
   public void robotInit() {
     new Thread(() -> {
       UsbCamera camera = CameraServer.startAutomaticCapture();
       camera.setResolution(640, 480);
-
-      CvSink cvSink = CameraServer.getVideo();
-      CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
-
-      Mat source = new Mat();
-      Mat output = new Mat();
-
-      while(!Thread.interrupted()) {
-          cvSink.grabFrame(source);
-          Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-          outputStream.putFrame(output);
-      }
   }).start();
     ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();
@@ -58,15 +41,14 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     if (secondary.getRawButton(5)) {
       m_robotContainer.intake.setSolenoidTrue();
-    } else if (secondary.getRawButton(6)) {
+   } else if (secondary.getRawButton(6)) {
       m_robotContainer.intake.setSolenoidFalse();
-    }  else if (secondary.getRawButton(1)) {
+   }  else if (secondary.getRawButton(1)) {
         m_robotContainer.elevator.startingconfig();
-      } else if (secondary.getRawButton(4)) {
+   } else if (secondary.getRawButton(4)) {
     m_robotContainer.elevator.highcube();
    }
   } 
-
   @Override
   public void disabledInit() {}
 
@@ -100,7 +82,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  }
 
   @Override
   public void testInit() {

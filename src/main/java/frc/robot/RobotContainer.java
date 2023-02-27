@@ -13,7 +13,6 @@ import frc.robot.subsystems.*;
 public class RobotContainer {
   /* Controllers */
 private Joystick driver = new Joystick(0);
-private XboxController secondary = new XboxController(1);
 
   //subsystems
 public Intake intake = new Intake();
