@@ -8,6 +8,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.config.CTREConfigs;
@@ -23,7 +24,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private final Joystick secondary = new Joystick(1);
+  private XboxController secondary = new XboxController(1);
 
   @Override
   public void robotInit() {
@@ -39,15 +40,6 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     
     CommandScheduler.getInstance().run();
-    if (secondary.getRawButton(5)) {
-      m_robotContainer.intake.setSolenoidTrue();
-   } else if (secondary.getRawButton(6)) {
-      m_robotContainer.intake.setSolenoidFalse();
-   }  else if (secondary.getRawButton(1)) {
-        m_robotContainer.elevator.startingconfig();
-   } else if (secondary.getRawButton(4)) {
-    m_robotContainer.elevator.highcube();
-   }
   } 
   @Override
   public void disabledInit() {}
@@ -83,7 +75,19 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+    if (secondary.getRawButton(5)) {
+      m_robotContainer.intake.setSolenoidTrue();
+   } else if (secondary.getRawButton(6)) {
+      m_robotContainer.intake.setSolenoidFalse();
+   } else if (secondary.getRawButtonPressed(3)) {
+      m_robotContainer.elevator.winchout();
+   } else if (secondary.getRawButton(1)) {
+    m_robotContainer.elevator.elevator();
+   } else if (secondary.getRawButtonPressed(2)) {
+    m_robotContainer.elevator.elevatorin();
+   } else if (secondary.getRawButtonPressed(1)) {
+m_robotContainer.elevator.elevatorout();
+   }
   }
 
   @Override
