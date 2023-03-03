@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.config.CTREConfigs;
@@ -24,13 +28,25 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private XboxController secondary = new XboxController(1);
+  private Joystick secondary = new Joystick(1);
+  private Joystick driver = new Joystick(0);
+  
+  private CANSparkMax elevatorMotor;
+  private CANSparkMax winchMotor;
+  private static final int DeviceID14 = 13;
+  private static final int DeviceID13 = 14;
 
   @Override
   public void robotInit() {
+    elevatorMotor = new CANSparkMax(DeviceID14, MotorType.kBrushless);
+    winchMotor = new CANSparkMax(DeviceID13, MotorType.kBrushless);
+
+    elevatorMotor.restoreFactoryDefaults();
+    winchMotor.restoreFactoryDefaults();
+
     new Thread(() -> {
       UsbCamera camera = CameraServer.startAutomaticCapture();
-      camera.setResolution(640, 480);
+      camera.setResolution(320, 240);
   }).start();
     ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();
@@ -46,21 +62,38 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {}
+  /** This function is called periodically during autonomous. */
+  
+  private double startTime;
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+  startTime = Timer.getFPGATimestamp();
   }
 
-  /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    double time = Timer.getFPGATimestamp();
 
+  if (time - startTime < 1) {
+   winchMotor.set(0.11);
+   elevatorMotor.set(0.16);
+  } else if (time - startTime > 4) {
+  winchMotor.set(0);
+  elevatorMotor.set(0);}
+  else if (time - startTime > 5) {
+  m_robotContainer.intake.setSolenoidTrue();
+  } else if (time - startTime > 7) {
+    winchMotor.set(-0.15);
+    elevatorMotor.set(-0.1);
+  } else if (time - startTime > 11.5) {
+    winchMotor.set(0);
+    elevatorMotor.set(0);
+  } else if (time - startTime > 12) {
+    
+  } else if (time - startTime > 13) {
+  }
+  }
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
@@ -75,27 +108,28 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if (secondary.getRawButton(5)) {
+    if (driver.getRawButton(6)) {
       m_robotContainer.intake.setSolenoidTrue();
-   } else if (secondary.getRawButton(6)) {
+   } else if (driver.getRawButton(5)) {
       m_robotContainer.intake.setSolenoidFalse();
-   } else if (secondary.getRawButtonPressed(3)) {
-      m_robotContainer.elevator.winchout();
-   } else if (secondary.getRawButton(1)) {
-    m_robotContainer.elevator.elevator();
-   } else if (secondary.getRawButtonPressed(2)) {
-    m_robotContainer.elevator.elevatorin();
-   } else if (secondary.getRawButtonPressed(1)) {
-m_robotContainer.elevator.elevatorout();
-   }
-  }
+   } else if (secondary.getRawButton(9)) {
+    elevatorMotor.set(0.4);
+  } else if (secondary.getRawButton(10)) {
+    elevatorMotor.set(-0.4); 
+  } else if (secondary.getRawButton(1)) {
+    winchMotor.set(0.3);
+  } else if (secondary.getRawButton(2)) {
+    winchMotor.set(-0.6);
+  } else {
+    winchMotor.set(0);
+    elevatorMotor.set(0);
+  }}
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
-
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}

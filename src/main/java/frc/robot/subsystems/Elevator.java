@@ -3,9 +3,12 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.event.EventLoop;
+
 public class Elevator{
     private static Elevator mInstance;
-
+    private Joystick secondary = new Joystick(1);
     public static Elevator getInstance() {
         if (mInstance == null) {
           mInstance = new Elevator();
@@ -48,6 +51,10 @@ public void elevatorout() {
 elevatorMotor.set(0.2);
 }
 public void elevatorin() {
-elevatorMotor.get();
+if (secondary.getRawButton(1)) {
+  elevatorMotor.set(0.2);
+} else if (secondary.getRawButton(2)) {
+  elevatorMotor.set(-0.2);
+}
 }
 }
