@@ -9,13 +9,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.lib.config.CTREConfigs;
+import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.SwerveModule;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,6 +29,8 @@ public class Robot extends TimedRobot {
   public static CTREConfigs ctreConfigs;
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  private SwerveModule m_SwerveModule;
+  private Swerve m_Swerve;
 
   private Joystick secondary = new Joystick(1);
   private Joystick driver = new Joystick(0);
@@ -50,6 +54,8 @@ public class Robot extends TimedRobot {
   }).start();
     ctreConfigs = new CTREConfigs();
     m_robotContainer = new RobotContainer();
+
+    
   }
 
   @Override
@@ -75,24 +81,27 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     double time = Timer.getFPGATimestamp();
 
+    Translation2d m_fowrward = new Translation2d(0, 0.25);
+    Translation2d m_backward = new Translation2d(0, -0.25);
+
   if (time - startTime < 1) {
    winchMotor.set(0.11);
    elevatorMotor.set(0.16);
-  } else if (time - startTime > 4) {
+  } 
+  if (time - startTime > 4) {
   winchMotor.set(0);
-  elevatorMotor.set(0);}
-  else if (time - startTime > 5) {
+  elevatorMotor.set(0);
   m_robotContainer.intake.setSolenoidTrue();
-  } else if (time - startTime > 7) {
-    winchMotor.set(-0.15);
-    elevatorMotor.set(-0.1);
-  } else if (time - startTime > 11.5) {
+  } 
+  if (time - startTime > 5) {
+    winchMotor.set(-0.18);
+    elevatorMotor.set(-0.19);
+  } if (time - startTime > 8) {
     winchMotor.set(0);
     elevatorMotor.set(0);
-  } else if (time - startTime > 12) {
-    
-  } else if (time - startTime > 13) {
-  }
+   } if (time - startTime > 8.5); {}
+   //     m_robotContainer.getSwerve().drive(m_fowrward, 180, true, false);
+  // }
   }
   @Override
   public void teleopInit() {

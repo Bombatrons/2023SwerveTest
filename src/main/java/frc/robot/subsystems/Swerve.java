@@ -38,6 +38,8 @@ public class Swerve extends SubsystemBase {
 
     field = new Field2d();
     SmartDashboard.putData("Field", field);
+
+    Translation2d m_Translation2d = new Translation2d(0, 0);
   }
 
   public void drive(
@@ -117,4 +119,24 @@ public class Swerve extends SubsystemBase {
           "Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
     }
   }
+
+  // public SwerveModule getModule1()
+  // {
+  //   return mSwerveMods[0];
+  // }
+
+  // public SwerveModule getModule2()
+  // {
+  //   return mSwerveMods[0];
+  // }
+
+  // public SwerveModule getModule3()
+  // {
+  //   return mSwerveMods[0];
+  // }
+
+  // public SwerveModule getModule1()
+  // {
+  //   return mSwerveMods[0];
+  // }
 }

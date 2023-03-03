@@ -120,7 +120,7 @@ public final class Constants {
         new SwerveModuleConstants(driveMotorID, angleMotorID, canCoderID, angleOffset);
     }
   }
-
+  
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 4.5; //3
     public static final double kMaxAccelerationMetersPerSecondSquared = 3; //3
