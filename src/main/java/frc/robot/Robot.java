@@ -81,28 +81,27 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     double time = Timer.getFPGATimestamp();
 
-    Translation2d m_fowrward = new Translation2d(0, 0.25);
-    Translation2d m_backward = new Translation2d(0, -0.25);
+    Translation2d m_fowrward = new Translation2d(0, 0.05);
+    Translation2d m_backward = new Translation2d(0, -0.05);
+    Translation2d m_stop = new Translation2d(0, 0);
 
   if (time - startTime < 1) {
    winchMotor.set(0.11);
-   elevatorMotor.set(0.16);
-  } 
+   elevatorMotor.set(0.16);}
+
   if (time - startTime > 4) {
   winchMotor.set(0);
   elevatorMotor.set(0);
-  m_robotContainer.intake.setSolenoidTrue();
-  } 
+  m_robotContainer.intake.setSolenoidTrue();} 
+  
   if (time - startTime > 5) {
     winchMotor.set(-0.18);
-    elevatorMotor.set(-0.19);
-  } if (time - startTime > 8) {
+    elevatorMotor.set(-0.19);}
+
+  if (time - startTime > 8) {
     winchMotor.set(0);
-    elevatorMotor.set(0);
-   } if (time - startTime > 8.5); {}
-   //     m_robotContainer.getSwerve().drive(m_fowrward, 180, true, false);
-  // }
-  }
+    elevatorMotor.set(0);}}
+
   @Override
   public void teleopInit() {
     // This makes sure that the autonomous stops running when
