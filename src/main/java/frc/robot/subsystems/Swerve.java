@@ -19,7 +19,7 @@ public class Swerve extends SubsystemBase {
   private SwerveDriveOdometry swerveOdometry;
   private SwerveModule[] mSwerveMods;
 
-  private Field2d field;
+   private Field2d field;
 
   private AHRS Gyro = new AHRS();
 
@@ -38,8 +38,6 @@ public class Swerve extends SubsystemBase {
 
     field = new Field2d();
     SmartDashboard.putData("Field", field);
-
-    Translation2d m_Translation2d = new Translation2d(0, 0);
   }
 
   public void drive(
@@ -55,6 +53,7 @@ public class Swerve extends SubsystemBase {
     for (SwerveModule mod : mSwerveMods) {
       mod.setDesiredState(swerveModuleStates[mod.moduleNumber], isOpenLoop);
     }
+  
   }
 
   /* Used by SwerveControllerCommand in Auto */
@@ -120,6 +119,9 @@ public class Swerve extends SubsystemBase {
     }
   }
 
+  public void drive(int i, int rotation, boolean fieldRelative, boolean isOpenLoop) {
+  }
+
   // public SwerveModule getModule1()
   // {
   //   return mSwerveMods[0];
@@ -138,5 +140,5 @@ public class Swerve extends SubsystemBase {
   // public SwerveModule getModule1()
   // {
   //   return mSwerveMods[0];
-  // }
+  // } 
 }
