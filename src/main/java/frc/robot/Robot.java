@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
   if (time - startTime > 7.25) {
     winchMotor.set(0);
     elevatorMotor.set(0);}
-  
+    
 }
 
   @Override
