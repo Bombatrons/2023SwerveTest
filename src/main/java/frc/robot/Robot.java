@@ -17,7 +17,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lib.config.CTREConfigs;
+import frc.robot.autos.exampleAuto;
+import frc.robot.subsystems.Swerve;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,7 +33,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private PathPlannerTrajectory solidPath;
-
+  private Swerve m_Swerve;
 
   private Joystick secondary = new Joystick(1);
   private Joystick driver = new Joystick(0);
@@ -83,29 +86,25 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     double time = Timer.getFPGATimestamp();
 
-  if (time - startTime < 1) {
-   winchMotor.set(0.11);
-   elevatorMotor.set(0.16);}
+    if (time - startTime < 1) {
+     winchMotor.set(0.11);
+     elevatorMotor.set(0.16);}
 
-  if (time - startTime > 4) {
-  winchMotor.set(0);
-  elevatorMotor.set(0);
-  m_robotContainer.intake.setSolenoidTrue();} 
-  
-  if (time - startTime > 4.25) {
-    winchMotor.set(-0.18);
-    elevatorMotor.set(-0.19);}
-
-  if (time - startTime > 6.75) {  
-    PathPlannerState solidPathState = (PathPlannerState) solidPath.sample(time - startTime - 6.75);
-
-    double MetersPerSecond = solidPathState.velocityMetersPerSecond;
-    double RadPerSecond = solidPathState.angularVelocityRadPerSec;}
-
-  if (time - startTime > 7.25) {
+    if (time - startTime > 4) {
     winchMotor.set(0);
-    elevatorMotor.set(0);}
-    
+    elevatorMotor.set(0);
+    m_robotContainer.intake.setSolenoidTrue();} 
+  
+    if (time - startTime > 4.25) {
+      winchMotor.set(-0.18);
+      elevatorMotor.set(-0.19);}
+
+  if (time - startTime > 6.75) {
+    new RunCommand(() -> m_Swerve.drive(0.1, 0, 0, true, true), m_Swerve);}
+
+   if (time - startTime > 7.25) {
+     winchMotor.set(0);
+     elevatorMotor.set(0);}  
 }
 
   @Override
@@ -127,7 +126,7 @@ public class Robot extends TimedRobot {
   } else if (secondary.getRawButton(10)) {
     elevatorMotor.set(-0.4); 
   } else if (secondary.getRawButton(1)) {
-    winchMotor.set(0.3);
+    winchMotor.set(0.45);
   } else if (secondary.getRawButton(2)) {
     winchMotor.set(-0.6);
   } else {

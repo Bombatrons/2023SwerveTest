@@ -122,6 +122,10 @@ public class Swerve extends SubsystemBase {
   public void drive(int i, int rotation, boolean fieldRelative, boolean isOpenLoop) {
   }
 
+public Object drive(double d, int i, int j, boolean b, boolean c) {
+    return null;
+}
+
   // public SwerveModule getModule1()
   // {
   //   return mSwerveMods[0];
