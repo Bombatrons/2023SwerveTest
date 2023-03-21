@@ -17,10 +17,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.lib.config.CTREConfigs;
-import frc.robot.autos.exampleAuto;
-import frc.robot.subsystems.Swerve;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,7 +30,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private PathPlannerTrajectory solidPath;
-  private Swerve m_Swerve;
 
   private Joystick secondary = new Joystick(1);
   private Joystick driver = new Joystick(0);
@@ -100,7 +96,10 @@ public class Robot extends TimedRobot {
       elevatorMotor.set(-0.19);}
 
   if (time - startTime > 6.75) {
-    new RunCommand(() -> m_Swerve.drive(0.1, 0, 0, true, true), m_Swerve);}
+    PathPlannerState solidPathState = (PathPlannerState) solidPath.sample(time - startTime - 6.75);
+
+    double MetersPerSecond = solidPathState.velocityMetersPerSecond;
+    double RadPerSecond = solidPathState.angularVelocityRadPerSec;}
 
    if (time - startTime > 7.25) {
      winchMotor.set(0);
